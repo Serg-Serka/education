@@ -1,11 +1,3 @@
-// Represent the graph (adjacency matrix)
-// const graph = [
-//     [0, 40, 40, 40],   // Edge lengths from node 0
-//     [10, 0, 35, 25],   // Edge lengths from node 1
-//     [15, 35, 0, 30],   // Edge lengths from node 2
-//     [20, 25, 30, 0]    // Edge lengths from node 3
-// ];
-
 function generateGraph(numNodes, maxEdgeLength) {
     const graph = Array.from({ length: numNodes }, () =>
         Array.from({ length: numNodes }, () => 0));
@@ -20,11 +12,6 @@ function generateGraph(numNodes, maxEdgeLength) {
 
     return graph;
 }
-
-const numNodes = 1000;
-const maxEdgeLength = 1500; // Maximum edge length
-const graph = generateGraph(numNodes, maxEdgeLength);
-// console.log(graph);
 
 // Nearest Neighbor Algorithm
 function nearestNeighbor(graph, startNode) {
@@ -60,7 +47,7 @@ function calculateTotalDistance(graph, path) {
 }
 
 // Example usage
-// const startNode = 3;
+const graph = generateGraph(100, 100);
 const startTime = Date.now();
 let paths = [];
 let minDistance = Infinity;

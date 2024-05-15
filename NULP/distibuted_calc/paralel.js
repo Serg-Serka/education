@@ -19,12 +19,6 @@ if (isMainThread) {
     const graph = generateGraph(1000, 1500);
 
     let startTime = Date.now();
-    // const graph = [
-    //     [0, 40, 40, 40],
-    //     [10, 0, 35, 25],
-    //     [15, 35, 0, 30],
-    //     [20, 25, 30, 0]
-    // ];
     const numNodes = graph.length;
     const maxWorkers = 4; // Maximum number of concurrent worker threads
 

@@ -1,45 +1,47 @@
 const { parentPort, workerData } = require('worker_threads');
 
 function nearestNeighbor(graph, startNode) {
-    // Implementation of the nearest neighbor algorithm
-    // Same as the function in the previous example
-
-    const numNodes = graph.length;
-    const visited = new Array(numNodes).fill(false);
+    const nodesNumber = graph.length;
+    const visited = new Array(nodesNumber).fill(false);
     let path = [startNode];
+    let distance = 0;
     visited[startNode] = true;
 
-    for (let i = 0; i < numNodes - 1; i++) {
+    for (let i = 0; i < nodesNumber - 1; i++) {
+        // if (distance > mostOptimalDistance) {
+        //     break;
+        // }
         let nearest = -1;
         let minDist = Infinity;
-        for (let j = 0; j < numNodes; j++) {
+
+        for (let j = 0; j < nodesNumber; j++) {
             if (!visited[j] && graph[path[i]][j] < minDist) {
                 nearest = j;
                 minDist = graph[path[i]][j];
             }
         }
         path.push(nearest);
+        distance += minDist;
         visited[nearest] = true;
     }
-    return path;
-}
 
-function calculateTotalDistance(graph, path) {
-    let totalDistance = 0;
-    for (let i = 0; i < path.length - 1; i++) {
-        totalDistance += graph[path[i]][path[i + 1]];
-    }
-    // Add distance from last node back to the start node
-    totalDistance += graph[path[path.length - 1]][path[0]];
-    return totalDistance;
+    return {path, distance};
 }
 
 // Receive data from the main thread
-const { graph, startNode } = workerData;
+const { graph } = workerData;
 
 // Execute nearest neighbor algorithm
-const path = nearestNeighbor(graph, startNode);
-const totalDistance = calculateTotalDistance(graph, path);
+let paths = [];
+let optimalDistance = Infinity;
+for (let startNode = 0; startNode < graph.length; startNode++) {
+    let {path, distance} = nearestNeighbor(graph, startNode);
+
+    if (distance < optimalDistance) {
+        paths = path;
+        optimalDistance = distance;
+    }
+}
 
 // Send the result back to the main thread
-parentPort.postMessage({path, totalDistance});
+parentPort.postMessage({paths, optimalDistance});

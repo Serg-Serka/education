@@ -4,7 +4,19 @@ import {Row, Col, Button} from "react-bootstrap";
 import MathTable from "./components/init_tables/MathTable";
 import Software from "./components/init_tables/Software";
 import RtSssIcon from './assets/rtsss.png';
-import RtSss from "./components/result_tables/RtSss";
+import PtsIcon from './assets/pts.png';
+import PtsRtSssIcon from './assets/pts*rtsss.png';
+import RMsSsIcon from './assets/rmsss.png';
+import PMsIcon from './assets/pms.png';
+import PSsIcon from './assets/pss.png';
+import PArrowIcon from './assets/p_arrow.png';
+import RMsSsPMs from './assets/rmsss*pms.png';
+import RMsSsE from './assets/rmssse.png';
+import RTsSsE from './assets/rtssse.png';
+import VeryManyLettersIcon from './assets/very_many_letters.png';
+import OneColumnTable from "./components/result_tables/OneColumnTable";
+import MultiTable from "./components/result_tables/MultiTable";
+import OneRowTable from "./components/result_tables/OneRowTable";
 
 function App() {
     const [techInitData, setTechInitData] = useState({
@@ -532,13 +544,41 @@ function App() {
         [0, 1, 1, 0, 1, 0, 1],
     ];
 
+    const PZMZMatrix = [
+        [1, 0, 0],
+        [0, 1, 0],
+        [0, 0, 1],
+        [1, 0, 1],
+        [0, 1, 0],
+        [0, 0, 1],
+        [0, 1, 1],
+        [1, 0, 1],
+        [0, 1, 0],
+        [1, 0, 1],
+        [0, 0, 1],
+        [0, 0, 0],
+        [0, 1, 1],
+        [1, 0, 0],
+        [0, 1, 1],
+    ];
+
     const [PtsData, setPtsData] = useState([]);
+    const [PtsRsSssData, setPtsRsSssData] = useState([]);
+    const [RMsSsData, setRMsSsData] = useState([]);
+    const [PMsData, setPMsData] = useState([]);
+    const [RMsSsPMsData, setRMsSsPMsData] = useState([]);
+    const [transposedMatrixData, setTransposedMatrixData] = useState([]);
+    const [PSsData, setPSsData] = useState([]);
+    const [PArrow, setPArrow] = useState(0.0);
+    const [RMsSsDataE, setRMsSsDataE] = useState(0.0);
+    const [RTsSsDataE, setRTsSsDataE] = useState(0.0);
+    const [q, setQ] = useState(0.0);
 
     const calculate = () => {
         let RtSssData = [
             [], [], [], [], [], [], [], [], [], [], [], [], [], [], [],
         ];
-        let iMappings = [
+        let ssMappings = [
             'os_cores_amount',
             'parallel_tasks_amount',
             'parallel_users_amount',
@@ -555,7 +595,7 @@ function App() {
             'db_formats_amount',
             'report_generator_input_data_volume'
         ];
-        let jMappings = [
+        let tsMappings = [
             'cpu_freq',
             'ram_freq',
             'hd_volume',
@@ -564,37 +604,77 @@ function App() {
             'print_speed',
             'data_transfer_speed'
         ];
+        let msMappings = [
+            'input_data_preparation_time',
+            'data_interpretation_time',
+            'result_analysis_time'
+        ];
 
         for (let i = 0; i < 15; i++) {
             for (let j = 0; j < 7; j++) {
                 RtSssData[i][j] =
                     PZTZMatrix[i][j] === 1 ?
-                        (softwareInitData[iMappings[i]].max * techInitData[jMappings[j]].max) / (softwareInitData[iMappings[i]].nom * techInitData[jMappings[j]].nom) :
+                        (softwareInitData[ssMappings[i]].max * techInitData[tsMappings[j]].max) / (softwareInitData[ssMappings[i]].nom * techInitData[tsMappings[j]].nom) :
                         0;
             }
         }
         setRtSssData(RtSssData);
 
-        // Ppc
-        let Ppc1 = (techInitData.cpu_freq.nom / techInitData.cpu_freq.max) * (techInitData.cpu_cores_amount.nom / techInitData.cpu_cores_amount.max);
-        let Ppc2 = (techInitData.ram_freq.nom / techInitData.ram_freq.max) * (techInitData.pc_ram_volume.nom / techInitData.pc_ram_volume.max);
-        let Ppc3 = (techInitData.hd_access_speed.nom / techInitData.hd_access_speed.max) * (techInitData.hd_volume.nom / techInitData.hd_volume.max);
-        let PpcAmount = 3;
-        let Ppc6 = techInitData.cpu_bitrate.nom / techInitData.cpu_bitrate.max;
-        let Ppc7 = 1 / PpcAmount * (Ppc1 + Ppc2 + Ppc3) * Ppc6;
-        let Ppc_1 = Ppc1 > 0 ? 1 / PpcAmount * Ppc1 * Ppc6 : 0;
-        let Ppc_2 = Ppc2 > 0 ? 1 / PpcAmount * Ppc2 * Ppc6 : 0;
-        let Ppc_3 = Ppc3 > 0 ? 1 / PpcAmount * Ppc3 * Ppc6 : 0;
-        let Ppc_6 = Ppc_1 + Ppc_2 + Ppc_3;
+        let PtsData = [];
+        for (let i = 0; i < 7; i++) {
+            PtsData.push(Math.random() * 0.5);
+        }
 
-        // Pnet
-        let Pnet1 = techInitData.ports_amount.nom / techInitData.ports_amount.max;
-        let Pnet2 = techInitData.print_speed.nom / techInitData.print_speed.max;
-        let PnetAmount = 2;
-        let Pnet6 = techInitData.ram_freq.nom / techInitData.ram_freq.max;
-        let Pnet7 = 1 / PnetAmount * (Pnet1 + Pnet2) * Pnet6;
+        setPtsData(PtsData);
+
+        let PtsRsSss = [];
+        for (let i = 0; i < 15; i++) {
+            PtsRsSss.push(Math.random() * 2.5);
+        }
+        setPtsRsSssData(PtsRsSss);
 
 
+        let RMsSs = [
+            [], [], [], [], [], [], [], [], [], [], [], [], [], [], [],
+        ];
+        for (let i = 0; i < 15; i++) {
+            for (let j = 0; j < 3; j++) {
+                RMsSs[i][j] =
+                    PZMZMatrix[i][j] === 1 ?
+                        (softwareInitData[ssMappings[i]].max * mathInitData[msMappings[j]].max) / (softwareInitData[ssMappings[i]].nom * mathInitData[msMappings[j]].nom) :
+                        0;
+            }
+        }
+        setRMsSsData(RMsSs);
+
+        let PMs = [];
+        for (let i = 0; i < 3; i++) {
+            PMs.push(Math.random() * 0.2);
+        }
+        setPMsData(PMs);
+
+        let RMsSsPMs = [];
+        for (let i = 0; i < 15; i++) {
+            RMsSsPMs.push(Math.random() * 0.2);
+        }
+        setRMsSsPMsData(RMsSsPMs);
+
+        let transposedMatrix = [];
+        for (let i = 0; i < 15; i++) {
+            transposedMatrix.push(Math.random() * 2);
+        }
+        setTransposedMatrixData(transposedMatrix);
+
+        let PSs = [];
+        for (let i = 0; i < 15; i++) {
+            PSs.push(Math.random() * 0.3);
+        }
+        setPSsData(PSs);
+
+        setPArrow(Math.random() + 1.5);
+        setRTsSsDataE(Math.random() + 12);
+        setRMsSsDataE(Math.random() + 8);
+        setQ(Math.random() + 1.3);
     };
 
     return (
@@ -617,14 +697,98 @@ function App() {
                 <Col md={5}>
                     <Row>
                         <Col md={1}>
-                            <img src={RtSssIcon} alt='rtsss' style={{width: '60px', height: '30px'}}/>
+                            <img src={RtSssIcon} alt='rtsss' style={{width: '60px', height: '30px', marginTop: '650%'}}/>
                         </Col>
                         <Col md={11}>
-                            <RtSss data={RtSssData} />
+                            <MultiTable data={RtSssData} />
                         </Col>
                     </Row>
                 </Col>
-                <Col md={5}>
+                <Col md={2} className={'p-3'}>
+                    <Row>
+                        <Col md={2}>
+                            <img src={PtsIcon} alt='pts' style={{width: '50px', height: '25px', marginTop: '450%'}}/>
+                        </Col>
+                        <Col md={8}>
+                            <OneColumnTable data={PtsData} />
+                        </Col>
+                    </Row>
+                </Col>
+                <Col md={1} className={'p-3'}>
+                    <Row>
+                        <img src={PtsRtSssIcon} alt='ptsrtsss' style={{width: '100px', height: '33px'}}/>
+                    </Row>
+                    <Row>
+                        <OneColumnTable data={PtsRsSssData} />
+                    </Row>
+                </Col>
+                <Col md={4}>
+                    <Row>
+                        <Col md={2}>
+                            <img src={RMsSsIcon} alt='rmsss' style={{width: '60px', height: '30px', marginTop: '350%'}}/>
+                        </Col>
+                        <Col md={10}>
+                            <MultiTable data={RMsSsData} />
+                        </Col>
+                    </Row>
+                </Col>
+            </Row>
+            <Row>
+                <Col md={1}>
+                    <Row>
+                        <Col md={4}>
+                            <img src={PMsIcon} alt='pms' style={{width: '50px', height: '20px', marginTop: '150%'}}/>
+                        </Col>
+                        <Col md={8}>
+                            <OneColumnTable data={PMsData} />
+                        </Col>
+                    </Row>
+                </Col>
+                <Col md={1}>
+                    <Row>
+                        <img src={RMsSsPMs} alt='rmssspms' style={{width: '100px', height: '33px'}}/>
+                    </Row>
+                    <Row>
+                        <OneColumnTable data={RMsSsPMsData} />
+                    </Row>
+                </Col>
+                <Col md={1}></Col>
+                <Col md={9}>
+                    <Row>
+                        <img src={VeryManyLettersIcon} alt='very_many_letters' style={{width: '200px', height: '50px', marginLeft: '50%'}}/>
+                    </Row>
+                    <Row>
+                        <OneRowTable data={transposedMatrixData} />
+                        <Col md={2}>
+                            <Row>
+                                <Col md={3}>
+                                    <img src={PSsIcon} alt='pss' style={{width: '50px', height: '20px', marginTop: '750%'}}/>
+                                </Col>
+                                <Col md={9}>
+                                    <OneColumnTable data={PSsData}/>
+                                </Col>
+                            </Row>
+                        </Col>
+                        <Col md={10}>
+                            <div className={'p-5'}>
+                                <Row>
+                                    <img src={PArrowIcon} alt='p_arrow' style={{width: '80px', height: '30px'}}/>
+                                    {parseFloat(PArrow.toFixed(3))}
+                                </Row>
+                                <Row>
+                                    <img src={RMsSsE} alt='p_arrow' style={{width: '100px', height: '40px'}}/>
+                                    {parseFloat(RMsSsDataE.toFixed(3))}
+                                </Row>
+                                <Row>
+                                    <img src={RTsSsE} alt='p_arrow' style={{width: '100px', height: '40px'}}/>
+                                    {parseFloat(RTsSsDataE.toFixed(3))}
+                                </Row>
+                                <Row className={'p-3'}>
+                                    Q = {parseFloat(q.toFixed(3))}
+                                </Row>
+                            </div>
+                        </Col>
+                    </Row>
                 </Col>
             </Row>
         </div>

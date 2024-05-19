@@ -1,8 +1,10 @@
 import {useState} from "react";
 import Technical from "./components/init_tables/Technical";
-import {Row, Col} from "react-bootstrap";
+import {Row, Col, Button} from "react-bootstrap";
 import MathTable from "./components/init_tables/MathTable";
 import Software from "./components/init_tables/Software";
+import RtSssIcon from './assets/rtsss.png';
+import RtSss from "./components/result_tables/RtSss";
 
 function App() {
     const [techInitData, setTechInitData] = useState({
@@ -495,6 +497,105 @@ function App() {
         if (key === 'max') calculateMinNomValue(data, dataTable, param);
     };
 
+    const [RtSssData, setRtSssData] = useState([
+        [1, 0, 0, 1, 1, 1, 0],
+        [0, 1, 0, 1, 0, 0, 1],
+        [0, 0, 1, 0, 1, 1, 0],
+        [1, 0, 1, 1, 0, 0, 1],
+        [0, 1, 0, 1, 1, 1, 0],
+        [0, 0, 1, 1, 0, 0, 1],
+        [0, 1, 1, 0, 1, 1, 1],
+        [1, 0, 1, 1, 0, 1, 0],
+        [0, 1, 0, 1, 1, 0, 1],
+        [1, 0, 1, 1, 0, 1, 0],
+        [0, 0, 1, 0, 1, 0, 1],
+        [0, 0, 0, 1, 0, 1, 0],
+        [0, 1, 1, 0, 1, 0, 1],
+        [1, 0, 0, 1, 0, 1, 0],
+        [0, 1, 1, 0, 1, 0, 1],
+    ])
+    const PZTZMatrix = [
+        [1, 0, 0, 1, 1, 1, 0],
+        [0, 1, 0, 1, 0, 0, 1],
+        [0, 0, 1, 0, 1, 1, 0],
+        [1, 0, 1, 1, 0, 0, 1],
+        [0, 1, 0, 1, 1, 1, 0],
+        [0, 0, 1, 1, 0, 0, 1],
+        [0, 1, 1, 0, 1, 1, 1],
+        [1, 0, 1, 1, 0, 1, 0],
+        [0, 1, 0, 1, 1, 0, 1],
+        [1, 0, 1, 1, 0, 1, 0],
+        [0, 0, 1, 0, 1, 0, 1],
+        [0, 0, 0, 1, 0, 1, 0],
+        [0, 1, 1, 0, 1, 0, 1],
+        [1, 0, 0, 1, 0, 1, 0],
+        [0, 1, 1, 0, 1, 0, 1],
+    ];
+
+    const [PtsData, setPtsData] = useState([]);
+
+    const calculate = () => {
+        let RtSssData = [
+            [], [], [], [], [], [], [], [], [], [], [], [], [], [], [],
+        ];
+        let iMappings = [
+            'os_cores_amount',
+            'parallel_tasks_amount',
+            'parallel_users_amount',
+            'db_table_volume',
+            'db_columns_volume',
+            'db_datatypes_amount',
+            'average_request_time',
+            'functions_amount',
+            'docs_formats_amount',
+            'doc_volume',
+            'encoding_amount',
+            'report_formats_amount',
+            'graphical_report_formats_amount',
+            'db_formats_amount',
+            'report_generator_input_data_volume'
+        ];
+        let jMappings = [
+            'cpu_freq',
+            'ram_freq',
+            'hd_volume',
+            'ports_amount',
+            'protocols_amount',
+            'print_speed',
+            'data_transfer_speed'
+        ];
+
+        for (let i = 0; i < 15; i++) {
+            for (let j = 0; j < 7; j++) {
+                RtSssData[i][j] =
+                    PZTZMatrix[i][j] === 1 ?
+                        (softwareInitData[iMappings[i]].max * techInitData[jMappings[j]].max) / (softwareInitData[iMappings[i]].nom * techInitData[jMappings[j]].nom) :
+                        0;
+            }
+        }
+        setRtSssData(RtSssData);
+
+        // Ppc
+        let Ppc1 = (techInitData.cpu_freq.nom / techInitData.cpu_freq.max) * (techInitData.cpu_cores_amount.nom / techInitData.cpu_cores_amount.max);
+        let Ppc2 = (techInitData.ram_freq.nom / techInitData.ram_freq.max) * (techInitData.pc_ram_volume.nom / techInitData.pc_ram_volume.max);
+        let Ppc3 = (techInitData.hd_access_speed.nom / techInitData.hd_access_speed.max) * (techInitData.hd_volume.nom / techInitData.hd_volume.max);
+        let PpcAmount = 3;
+        let Ppc6 = techInitData.cpu_bitrate.nom / techInitData.cpu_bitrate.max;
+        let Ppc7 = 1 / PpcAmount * (Ppc1 + Ppc2 + Ppc3) * Ppc6;
+        let Ppc_1 = Ppc1 > 0 ? 1 / PpcAmount * Ppc1 * Ppc6 : 0;
+        let Ppc_2 = Ppc2 > 0 ? 1 / PpcAmount * Ppc2 * Ppc6 : 0;
+        let Ppc_3 = Ppc3 > 0 ? 1 / PpcAmount * Ppc3 * Ppc6 : 0;
+        let Ppc_6 = Ppc_1 + Ppc_2 + Ppc_3;
+
+        // Pnet
+        let Pnet1 = techInitData.ports_amount.nom / techInitData.ports_amount.max;
+        let Pnet2 = techInitData.print_speed.nom / techInitData.print_speed.max;
+        let PnetAmount = 2;
+        let Pnet6 = techInitData.ram_freq.nom / techInitData.ram_freq.max;
+        let Pnet7 = 1 / PnetAmount * (Pnet1 + Pnet2) * Pnet6;
+
+
+    };
 
     return (
         <div className="App p-3">
@@ -508,6 +609,22 @@ function App() {
                 <Col md={7}>
                     <h3>Software data:</h3>
                     <Software data={softwareInitData} setter={handleInitDataChange} />
+                    <Button className='btn btn-success' onClick={calculate}>Calculate</Button>
+                </Col>
+            </Row>
+            <h3>Results:</h3>
+            <Row>
+                <Col md={5}>
+                    <Row>
+                        <Col md={1}>
+                            <img src={RtSssIcon} alt='rtsss' style={{width: '60px', height: '30px'}}/>
+                        </Col>
+                        <Col md={11}>
+                            <RtSss data={RtSssData} />
+                        </Col>
+                    </Row>
+                </Col>
+                <Col md={5}>
                 </Col>
             </Row>
         </div>

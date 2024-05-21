@@ -5,12 +5,12 @@ function MultiTable({data}) {
     return (
         <Table  striped bordered hover>
             <tbody>
-            {data.map(row => {
+            {data.map((row, index) => {
                 return (
-                    <tr>
-                        {row.map(value => {
+                    <tr key={index}>
+                        {row.map((value, valIndex) => {
                             return (
-                                <th style={{fontWeight: 400}}>{value}</th>
+                                <th style={{fontWeight: 400}} key={index + '_' + valIndex}>{value}</th>
                             );
                         })}
                     </tr>

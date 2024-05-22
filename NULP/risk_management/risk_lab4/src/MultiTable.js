@@ -10,7 +10,15 @@ function MultiTable({data}) {
                     <tr key={index}>
                         {row.map((value, valIndex) => {
                             return (
-                                <th style={{fontWeight: 400}} key={index + '_' + valIndex}>{value}</th>
+                                <th
+                                    style={{
+                                        fontWeight: 400,
+                                        backgroundColor: value === "Low" ? "green" : value === "Average" ? "orange" : value === "High" ? "red" : "white"
+                                    }}
+                                    key={index + '_' + valIndex}
+                                >
+                                    {typeof value === 'number' ? parseFloat(value.toFixed(2)) : value}
+                                </th>
                             );
                         })}
                     </tr>

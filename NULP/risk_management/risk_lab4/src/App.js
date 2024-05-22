@@ -101,6 +101,8 @@ function App() {
 
     const getRandomFrom5to10 = () => Math.floor(Math.random() * (10 - 5 + 1)) + 5;
 
+    const getRandomFrom01To05 = () => Math.random() * 0.4 + 0.1;
+
     const [expertCoeffData, setExpertCoeffData] = useState([
         ['Plural events', 'Amount', 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
         ['Tech risks', 11, getRandomFrom5to10(), getRandomFrom5to10(), getRandomFrom5to10(), getRandomFrom5to10(), getRandomFrom5to10(), getRandomFrom5to10(), getRandomFrom5to10(), getRandomFrom5to10(), getRandomFrom5to10(), getRandomFrom5to10(),],
@@ -117,6 +119,138 @@ function App() {
         ['Valuable risks', 9, getRandomFrom5to10(), getRandomFrom5to10(), getRandomFrom5to10(), getRandomFrom5to10(), getRandomFrom5to10(), getRandomFrom5to10(), getRandomFrom5to10(), getRandomFrom5to10(), getRandomFrom5to10(), getRandomFrom5to10(),],
         ['Risks of realization and management', 16, getRandomFrom5to10(), getRandomFrom5to10(), getRandomFrom5to10(), getRandomFrom5to10(), getRandomFrom5to10(), getRandomFrom5to10(), getRandomFrom5to10(), getRandomFrom5to10(), getRandomFrom5to10(), getRandomFrom5to10(),],
     ]);
+
+    const [probabilitiesData, setProbabilitiesData] = useState([]);
+    const [costsData, setCostsData] = useState([]);
+
+    const calculate = () => {
+        let probabilities = [
+            ["Plural events", 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, "Sum", 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, "Sum", "Level"],
+        ];
+
+        techRiskData.map(row => {
+            if (row[2] === true) {
+                let last;
+                probabilities.push([
+                    row[1], getRandomFrom01To05(), getRandomFrom01To05(), getRandomFrom01To05(), getRandomFrom01To05(), getRandomFrom01To05(),
+                    getRandomFrom01To05(), getRandomFrom01To05(), getRandomFrom01To05(), getRandomFrom01To05(), getRandomFrom01To05(), getRandomFrom01To05(),
+                    getRandomFrom01To05() * getRandomFrom5to10(), getRandomFrom01To05() * getRandomFrom5to10(), getRandomFrom01To05() * getRandomFrom5to10(),
+                    getRandomFrom01To05() * getRandomFrom5to10(), getRandomFrom01To05() * getRandomFrom5to10(), getRandomFrom01To05() * getRandomFrom5to10(),
+                    getRandomFrom01To05() * getRandomFrom5to10(), getRandomFrom01To05() * getRandomFrom5to10(), getRandomFrom01To05() * getRandomFrom5to10(),
+                    getRandomFrom01To05() * getRandomFrom5to10(), last = getRandomFrom01To05(),
+                    last <= 0.3 ? "Low" : last >= 0.45 ? "High" : "Average"
+                ]);
+            }
+        });
+        valueRiskData.map(row => {
+            if (row[2] === true) {
+                let last;
+                probabilities.push([
+                    row[1], getRandomFrom01To05(), getRandomFrom01To05(), getRandomFrom01To05(), getRandomFrom01To05(), getRandomFrom01To05(),
+                    getRandomFrom01To05(), getRandomFrom01To05(), getRandomFrom01To05(), getRandomFrom01To05(), getRandomFrom01To05(), getRandomFrom01To05(),
+                    getRandomFrom01To05() * getRandomFrom5to10(), getRandomFrom01To05() * getRandomFrom5to10(), getRandomFrom01To05() * getRandomFrom5to10(),
+                    getRandomFrom01To05() * getRandomFrom5to10(), getRandomFrom01To05() * getRandomFrom5to10(), getRandomFrom01To05() * getRandomFrom5to10(),
+                    getRandomFrom01To05() * getRandomFrom5to10(), getRandomFrom01To05() * getRandomFrom5to10(), getRandomFrom01To05() * getRandomFrom5to10(),
+                    getRandomFrom01To05() * getRandomFrom5to10(), last = getRandomFrom01To05(),
+                    last <= 0.3 ? "Low" : last >= 0.45 ? "High" : "Average"
+                ]);
+            }
+        });
+        plannedRiskData.map(row => {
+            if (row[2] === true) {
+                let last;
+                probabilities.push([
+                    row[1], getRandomFrom01To05(), getRandomFrom01To05(), getRandomFrom01To05(), getRandomFrom01To05(), getRandomFrom01To05(),
+                    getRandomFrom01To05(), getRandomFrom01To05(), getRandomFrom01To05(), getRandomFrom01To05(), getRandomFrom01To05(), getRandomFrom01To05(),
+                    getRandomFrom01To05() * getRandomFrom5to10(), getRandomFrom01To05() * getRandomFrom5to10(), getRandomFrom01To05() * getRandomFrom5to10(),
+                    getRandomFrom01To05() * getRandomFrom5to10(), getRandomFrom01To05() * getRandomFrom5to10(), getRandomFrom01To05() * getRandomFrom5to10(),
+                    getRandomFrom01To05() * getRandomFrom5to10(), getRandomFrom01To05() * getRandomFrom5to10(), getRandomFrom01To05() * getRandomFrom5to10(),
+                    getRandomFrom01To05() * getRandomFrom5to10(), last = getRandomFrom01To05(),
+                    last <= 0.3 ? "Low" : last >= 0.45 ? "High" : "Average"
+                ]);
+            }
+        });
+        realizationRiskData.map(row => {
+            if (row[2] === true) {
+                let last;
+                probabilities.push([
+                    row[1], getRandomFrom01To05(), getRandomFrom01To05(), getRandomFrom01To05(), getRandomFrom01To05(), getRandomFrom01To05(),
+                    getRandomFrom01To05(), getRandomFrom01To05(), getRandomFrom01To05(), getRandomFrom01To05(), getRandomFrom01To05(), getRandomFrom01To05(),
+                    getRandomFrom01To05() * getRandomFrom5to10(), getRandomFrom01To05() * getRandomFrom5to10(), getRandomFrom01To05() * getRandomFrom5to10(),
+                    getRandomFrom01To05() * getRandomFrom5to10(), getRandomFrom01To05() * getRandomFrom5to10(), getRandomFrom01To05() * getRandomFrom5to10(),
+                    getRandomFrom01To05() * getRandomFrom5to10(), getRandomFrom01To05() * getRandomFrom5to10(), getRandomFrom01To05() * getRandomFrom5to10(),
+                    getRandomFrom01To05() * getRandomFrom5to10(), last = getRandomFrom01To05(),
+                    last <= 0.3 ? "Low" : last >= 0.45 ? "High" : "Average"
+                ]);
+            }
+        });
+
+        setProbabilitiesData(probabilities);
+
+        let costs = [
+            ["Plural events", 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, "Sum", 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, "Additional cost", "Final cost", "Level"],
+        ];
+
+        techRiskData.map(row => {
+            if (row[2] === true) {
+                let last;
+                costs.push([
+                    row[1], getRandomFrom01To05(), getRandomFrom01To05(), getRandomFrom01To05(), getRandomFrom01To05(), getRandomFrom01To05(),
+                    getRandomFrom01To05(), getRandomFrom01To05(), getRandomFrom01To05(), getRandomFrom01To05(), getRandomFrom01To05(), getRandomFrom01To05(),
+                    getRandomFrom01To05() * getRandomFrom5to10(), getRandomFrom01To05() * getRandomFrom5to10(), getRandomFrom01To05() * getRandomFrom5to10(),
+                    getRandomFrom01To05() * getRandomFrom5to10(), getRandomFrom01To05() * getRandomFrom5to10(), getRandomFrom01To05() * getRandomFrom5to10(),
+                    getRandomFrom01To05() * getRandomFrom5to10(), getRandomFrom01To05() * getRandomFrom5to10(), getRandomFrom01To05() * getRandomFrom5to10(),
+                    getRandomFrom01To05() * getRandomFrom5to10(), last = getRandomFrom01To05() * 10, getRandomFrom01To05() * 100,
+                    last <= 3 ? "Low" : last >= 45 ? "High" : "Average"
+                ]);
+            }
+        });
+        valueRiskData.map(row => {
+            if (row[2] === true) {
+                let last;
+                costs.push([
+                    row[1], getRandomFrom01To05(), getRandomFrom01To05(), getRandomFrom01To05(), getRandomFrom01To05(), getRandomFrom01To05(),
+                    getRandomFrom01To05(), getRandomFrom01To05(), getRandomFrom01To05(), getRandomFrom01To05(), getRandomFrom01To05(), getRandomFrom01To05(),
+                    getRandomFrom01To05() * getRandomFrom5to10(), getRandomFrom01To05() * getRandomFrom5to10(), getRandomFrom01To05() * getRandomFrom5to10(),
+                    getRandomFrom01To05() * getRandomFrom5to10(), getRandomFrom01To05() * getRandomFrom5to10(), getRandomFrom01To05() * getRandomFrom5to10(),
+                    getRandomFrom01To05() * getRandomFrom5to10(), getRandomFrom01To05() * getRandomFrom5to10(), getRandomFrom01To05() * getRandomFrom5to10(),
+                    getRandomFrom01To05() * getRandomFrom5to10(), last = getRandomFrom01To05() * 10, getRandomFrom01To05() * 100,
+                    last <= 3 ? "Low" : last >= 45 ? "High" : "Average"
+                ]);
+            }
+        });
+        plannedRiskData.map(row => {
+            if (row[2] === true) {
+                let last;
+                costs.push([
+                    row[1], getRandomFrom01To05(), getRandomFrom01To05(), getRandomFrom01To05(), getRandomFrom01To05(), getRandomFrom01To05(),
+                    getRandomFrom01To05(), getRandomFrom01To05(), getRandomFrom01To05(), getRandomFrom01To05(), getRandomFrom01To05(), getRandomFrom01To05(),
+                    getRandomFrom01To05() * getRandomFrom5to10(), getRandomFrom01To05() * getRandomFrom5to10(), getRandomFrom01To05() * getRandomFrom5to10(),
+                    getRandomFrom01To05() * getRandomFrom5to10(), getRandomFrom01To05() * getRandomFrom5to10(), getRandomFrom01To05() * getRandomFrom5to10(),
+                    getRandomFrom01To05() * getRandomFrom5to10(), getRandomFrom01To05() * getRandomFrom5to10(), getRandomFrom01To05() * getRandomFrom5to10(),
+                    getRandomFrom01To05() * getRandomFrom5to10(), last = getRandomFrom01To05() * 10, getRandomFrom01To05() * 100,
+                    last <= 3 ? "Low" : last >= 45 ? "High" : "Average"
+                ]);
+            }
+        });
+        realizationRiskData.map(row => {
+            if (row[2] === true) {
+                let last;
+                costs.push([
+                    row[1], getRandomFrom01To05(), getRandomFrom01To05(), getRandomFrom01To05(), getRandomFrom01To05(), getRandomFrom01To05(),
+                    getRandomFrom01To05(), getRandomFrom01To05(), getRandomFrom01To05(), getRandomFrom01To05(), getRandomFrom01To05(), getRandomFrom01To05(),
+                    getRandomFrom01To05() * getRandomFrom5to10(), getRandomFrom01To05() * getRandomFrom5to10(), getRandomFrom01To05() * getRandomFrom5to10(),
+                    getRandomFrom01To05() * getRandomFrom5to10(), getRandomFrom01To05() * getRandomFrom5to10(), getRandomFrom01To05() * getRandomFrom5to10(),
+                    getRandomFrom01To05() * getRandomFrom5to10(), getRandomFrom01To05() * getRandomFrom5to10(), getRandomFrom01To05() * getRandomFrom5to10(),
+                    getRandomFrom01To05() * getRandomFrom5to10(), last = getRandomFrom01To05() * 10, getRandomFrom01To05() * 100,
+                    last <= 3 ? "Low" : last >= 45 ? "High" : "Average"
+                ]);
+            }
+        });
+
+        setCostsData(costs);
+    };
+
 
     return (
         <div className="App p-3">
@@ -156,11 +290,21 @@ function App() {
                 </Col>
             </Row>
             <Row>
-                <Button type={'button'} className={'btn btn-success'} style={{width: '50%', marginLeft: '25%'}}>Calculate</Button>
+                <Button
+                    type={'button'}
+                    className={'btn btn-success'}
+                    style={{width: '50%', marginLeft: '25%'}}
+                    onClick={calculate}
+                >
+                    Calculate
+                </Button>
             </Row>
-
-
-
+            <Row className={'p-3'}>
+                <h3>Probabilities data:</h3>
+                <MultiTable data={probabilitiesData} />
+                <h3>Costs data:</h3>
+                <MultiTable data={costsData} />
+            </Row>
         </div>
     );
 }

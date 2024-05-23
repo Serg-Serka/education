@@ -8,9 +8,6 @@ function nearestNeighbor(graph, startNode) {
     visited[startNode] = true;
 
     for (let i = 0; i < nodesNumber - 1; i++) {
-        // if (distance > mostOptimalDistance) {
-        //     break;
-        // }
         let nearest = -1;
         let minDist = Infinity;
 

@@ -15,7 +15,7 @@ function generateGraph(numNodes, maxEdgeLength) {
     return graph;
 }
 
-let graph = generateGraph(1000, 100);
+let graph = generateGraph(200, 100);
 
 
 if (isMainThread) {
